@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Тренажер: Оформлення презентацій</title>
+<style>
+:root{--bg:#fff6e5;--card:#ffffff;--ink:#2b2a3a;--mut:#6b6880;--pri:#6c4ff0;--pri-ink:#fff;--ok:#1f9d55;--okbg:#dff6e8;--bad:#d93f4c;--badbg:#fde4e6;--line:#e6dfd0;--chip:#efeaff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1a2b;--card:#26253a;--ink:#f1eff9;--mut:#a9a5c4;--pri:#8e78ff;--pri-ink:#14122a;--ok:#4cd68a;--okbg:#17382a;--bad:#ff7a85;--badbg:#44202a;--line:#3a3856;--chip:#34315a}}
+:root[data-theme="dark"]{--bg:#1b1a2b;--card:#26253a;--ink:#f1eff9;--mut:#a9a5c4;--pri:#8e78ff;--pri-ink:#14122a;--ok:#4cd68a;--okbg:#17382a;--bad:#ff7a85;--badbg:#44202a;--line:#3a3856;--chip:#34315a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.45 "Trebuchet MS","Segoe UI",system-ui,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:14px}
+.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.top h1{font-size:1.05rem;margin:0;flex:1;min-width:140px}
+.pill{background:var(--chip);border-radius:99px;padding:4px 12px;font-weight:700;font-size:.9rem}
+button{font:inherit;cursor:pointer;border:0;border-radius:14px}
+.finish{background:var(--bad);color:#fff;padding:8px 14px;font-weight:700;font-size:.9rem}
+.bar{height:12px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:14px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffb703,#ff6b6b,#6c4ff0);transition:width .4s}
+.card{background:var(--card);border-radius:22px;padding:20px;box-shadow:0 6px 0 var(--line)}
+.cat{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.cat .face{font-size:2.6rem;line-height:1}
+.q{font-weight:700;font-size:1.15rem}
+.pg{color:var(--mut);font-size:.8rem;margin-top:2px}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:2px solid var(--line);padding:12px 14px;margin:8px 0;font-weight:600;transition:transform .1s}
+.opt:hover:not(:disabled){border-color:var(--pri);transform:translateY(-2px)}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}
+.opt.bad{background:var(--badbg);border-color:var(--bad)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{background:var(--chip);color:var(--ink);padding:10px 12px;font-weight:600;border:2px solid transparent}
+.chip.used{opacity:.3}
+.slots{min-height:60px;border:2px dashed var(--line);border-radius:14px;padding:8px;margin:8px 0}
+.slots div{background:var(--chip);border-radius:10px;padding:8px 10px;margin:4px 0;font-weight:600}
+.slots.ok{border-color:var(--ok)}.slots.bad{border-color:var(--bad)}
+.main{background:var(--pri);color:var(--pri-ink);padding:12px 20px;font-weight:700;margin-top:8px}
+.sec{background:var(--chip);color:var(--ink);padding:12px 16px;font-weight:700;margin:8px 8px 0 0}
+.fb{margin-top:12px;padding:12px 14px;border-radius:14px;font-weight:600}
+.fb.ok{background:var(--okbg)}.fb.bad{background:var(--badbg)}
+.fb small{display:block;font-weight:400;margin-top:4px}
+.hide{display:none}
+.center{text-align:center}
+.big{font-size:4rem;margin:0}
+.stars{font-size:2.2rem;letter-spacing:4px}
+.miss{border-left:5px solid var(--bad);background:var(--badbg);border-radius:10px;padding:10px 12px;margin:10px 0;text-align:left;font-size:.95rem}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:20}
+.ov .card{max-width:380px;text-align:center}
+.pop{animation:pop .35s}@keyframes pop{0%{transform:scale(.9)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>🎨 Тренажер: оформлення презентацій<br><span class="pg">§ 12, сторінки 62–68</span></h1>
+    <span class="pill" id="score">⭐ 0</span>
+    <button class="finish" id="finBtn">🏁 Завершити</button>
+  </div>
+  <div class="bar"><i id="bar"></i></div>
+  <div id="app"></div>
+</div>
+<div class="ov hide" id="ov"><div class="card pop">
+  <p class="big">🤔</p>
+  <h2 id="ovT" style="margin:0 0 8px">Завершити роботу?</h2>
+  <p id="ovP" style="color:var(--mut)"></p>
+  <button class="main" id="yes">Так, завершити</button>
+  <button class="sec" id="no">Продовжити</button>
+</div></div>
+
+<script>
+const DATA=[
+{t:"c",q:"Що таке шаблон комп’ютерної презентації?",p:62,a:"Схема (проєкт) презентації з одного чи кількох слайдів, оформлених за певним задумом",w:["Готовий виступ, який промовляє комп’ютер","Лише зображення для тла слайда","Програма для створення малюнків"],e:"Шаблон — це проєкт презентації, оформлений з дотриманням певного задуму."},
+{t:"c",q:"Яке розширення зазвичай мають файли шаблонів?",p:62,a:".potx",w:[".docx",".xlsx",".mp3"],e:"Шаблони зберігаються у файлах .potx — вихідний шаблон не пошкоджується."},
+{t:"c",q:"Де в PowerPoint можна відшукати потрібний шаблон?",p:63,a:"У вікні програми одразу після її запуску",w:["Лише на вкладці Рецензування","У програмі Блокнот","Тільки у Word"],e:"Програма пропонує шаблони одразу після запуску (рис. 12.1)."},
+{t:"c",q:"Що таке макет слайда?",p:63,a:"Умовна схема, що визначає спосіб розташування об’єктів на слайді",w:["Назва файлу презентації","Колір шрифту на слайді","Швидкість показу слайдів"],e:"Макет визначає, де на слайді розташовані об’єкти."},
+{t:"o",q:"Розташуйте кроки, щоб ЗМІНИТИ макет наявних слайдів, у правильному порядку.",p:64,s:["Виділити один або кілька слайдів","Розкрити список Макет на вкладці Основне (група Слайди)","Клацнути один зі зразків макета"],e:"Спочатку виділяємо слайди, потім відкриваємо список Макет і обираємо зразок."},
+{t:"o",q:"Розташуйте кроки, щоб СТВОРИТИ новий слайд певного макета.",p:63,s:["Розгорнути список Створити слайд на вкладці Основне","Клацнути вибраний макет"],e:"Список Створити слайд — у групі Слайди вкладки Основне."},
+{t:"c",q:"Як називаються ділянки, обведені прямокутником, що з’являються на слайді після вибору макета?",p:64,a:"Контейнери",w:["Папки","Кнопки","Рамки для друку"],e:"Це контейнери: для заголовка, тексту, комбінований."},
+{t:"c",q:"Що станеться з написом, доданим поза контейнером, коли застосувати автоматичне оформлення?",p:65,a:"Він не форматуватиметься (на малюнку 12.4 напис «загубився»)",w:["Він стане більшим і яскравішим","Він автоматично переміститься в заголовок","Він буде вилучений зі слайда"],e:"Об’єкти поза контейнерами не форматуються автоматично."},
+{t:"t",q:"Контейнер для заголовка слайда бажано вилучати.",p:65,a:false,e:"Небажано! Заголовок слайда потім буде у списку слайдів при налаштуванні гіперпосилань."},
+{t:"c",q:"Який контейнер дозволяє розміщувати дані різних типів?",p:65,a:"Комбінований контейнер",w:["Контейнер для заголовка","Контейнер для тексту","Порожній контейнер"],e:"У комбінований контейнер можна додати текст, малюнок та інші об’єкти."},
+{t:"t",q:"Щоб додати новий об’єкт у контейнер, спочатку треба вилучити об’єкт, вставлений раніше.",p:65,a:true,e:"Саме так: попередньо вилучаємо старий об’єкт."},
+{t:"c",q:"Яка програма стала попередницею PowerPoint? Це цікавий факт зі с. 66!",p:66,a:"Presenter",w:["Painter","Writer","Player"],e:"У 1984 році створили програму Presenter, пізніше її перейменували на PowerPoint."},
+{t:"c",q:"Що таке тема слайда (презентації)?",p:66,a:"Іменований стиль оформлення об’єктів: тла, шрифтів, графічних об’єктів",w:["Назва презентації на першому слайді","Список усіх слайдів","Звук під час переходу слайдів"],e:"Тема — це готовий стиль оформлення слайдів."},
+{t:"c",q:"На якій вкладці розташована колекція тем оформлення слайдів?",p:66,a:"Конструктор",w:["Вставлення","Рецензування","Вигляд"],e:"Колекція тем — на вкладці Конструктор."},
+{t:"c",q:"Яку команду обрати в контекстному меню, щоб змінити тему лише для окремих слайдів?",p:67,a:"Застосувати до виділених слайдів",w:["Застосувати до всіх слайдів","Встановити як тему за промовчанням","Додати колекцію до панелі швидкого доступу"],e:"Спочатку виділіть слайди, потім виберіть цю команду."},
+{t:"c",q:"Де налаштовують колірну гаму, заповнення тла та шрифт обраної теми?",p:67,a:"Вкладка Конструктор → група Варіанти",w:["Вкладка Файл → Друк","Вкладка Показ слайдів → Запис","Вкладка Основне → Макет"],e:"Список групи Варіанти на вкладці Конструктор дозволяє змінювати вигляд теми."},
+{t:"c",q:"Вправа 12. Який макет має Заголовок, два контейнери для тексту та два комбіновані контейнери?",p:68,a:"Порівняння",w:["Вміст із підписом","Лише заголовок","Титульний слайд"],e:"Для 3-го слайда обираємо макет Порівняння."},
+{t:"c",q:"Вправа 12. Який макет обрати для 2-го слайда (заголовок, один контейнер для тексту і один комбінований)?",p:68,a:"Вміст із підписом",w:["Порівняння","Заголовок розділу","Два об’єкти"],e:"Назва макета для 2-го слайда — Вміст із підписом."}
+];
+const $=id=>document.getElementById(id);
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const CATS=["😺","😸","😻","😼","🐱"];
+let Q,i,right,done,misses,locked;
+
+function start(){Q=shuf(DATA);i=0;right=0;done=0;misses=[];locked=false;$("ov").classList.add("hide");show()}
+function upd(){$("score").textContent="⭐ "+right;$("bar").style.width=(done/Q.length*100)+"%"}
+function show(){
+  upd();
+  if(i>=Q.length){return end(false)}
+  locked=false;
+  const q=Q[i],app=$("app");
+  let h='<div class="card pop"><div class="cat"><div class="face">'+CATS[i%CATS.length]+'</div><div><div class="q">'+(i+1)+'/'+Q.length+'. '+q.q+'</div><div class="pg">📖 підручник, с. '+q.p+'</div></div></div><div id="body"></div><div id="fb"></div><div id="nx"></div></div>';
+  app.innerHTML=h;
+  const b=$("body");
+  if(q.t==="c"){
+    shuf([q.a].concat(q.w)).forEach(o=>{const x=document.createElement("button");x.className="opt";x.textContent=o;x.onclick=()=>answer(o===q.a,x,q);b.appendChild(x)});
+  }else if(q.t==="t"){
+    [["✅ Правда",true],["❌ Неправда",false]].forEach(([l,v])=>{const x=document.createElement("button");x.className="opt";x.textContent=l;x.onclick=()=>answer(v===q.a,x,q);b.appendChild(x)});
+  }else{
+    let picked=[];
+    b.innerHTML='<div>Натискайте кроки по черзі:</div><div class="slots" id="sl"></div><div class="chips" id="ch"></div><button class="sec" id="rs">↺ Спочатку</button><button class="main" id="ck">Перевірити</button>';
+    const ch=$("ch"),sl=$("sl");
+    const draw=()=>{sl.innerHTML=picked.map((s,n)=>'<div>'+(n+1)+'. '+s+'</div>').join("");
+      [...ch.children].forEach(c=>c.classList.toggle("used",picked.includes(c.dataset.s)))};
+    shuf(q.s).forEach(s=>{const c=document.createElement("button");c.className="chip";c.textContent=s;c.dataset.s=s;
+      c.onclick=()=>{if(locked||picked.includes(s))return;picked.push(s);draw()};ch.appendChild(c)});
+    $("rs").onclick=()=>{if(!locked){picked=[];draw()}};
+    $("ck").onclick=()=>{if(locked)return;if(picked.length<q.s.length){$("fb").innerHTML='<div class="fb bad">Постав усі кроки 😉</div>';return}
+      const ok=picked.every((s,n)=>s===q.s[n]);sl.classList.add(ok?"ok":"bad");
+      if(!ok){sl.insertAdjacentHTML("afterend",'<div class="slots ok">'+q.s.map((s,n)=>'<div>'+(n+1)+'. '+s+'</div>').join("")+'</div>')}
+      answer(ok,null,q)};
+  }
+}
+function answer(ok,btn,q){
+  if(locked)return;locked=true;done++;
+  document.querySelectorAll(".opt").forEach(o=>{o.disabled=true;
+    if(q.t==="c"&&o.textContent===q.a)o.classList.add("ok");
+    if(q.t==="t"&&((o.textContent.includes("Правда"))===q.a))o.classList.add("ok")});
+  if(btn&&!ok)btn.classList.add("bad");
+  document.querySelectorAll(".chip,#rs,#ck").forEach(e=>e.disabled=true);
+  if(ok){right++}else{misses.push(q)}
+  const praise=["Супер!","Молодець!","Так тримати!","Чудово!"][Math.floor(Math.random()*4)];
+  $("fb").innerHTML='<div class="fb '+(ok?"ok":"bad")+' pop">'+(ok?"🎉 "+praise:"🙈 Майже! Спробуй запам’ятати:")+'<small>'+q.e+'</small></div>';
+  const last=i>=Q.length-1;
+  $("nx").innerHTML='<button class="main" id="go">'+(last?"Показати результат 🏆":"Далі ➜")+'</button>';
+  $("go").onclick=()=>{i++;show()};
+  upd();
+}
+function end(early){
+  $("ov").classList.add("hide");upd();
+  const pct=done?Math.round(right/done*100):0;
+  const st=!done?0:pct>=90?3:pct>=65?2:pct>=35?1:0;
+  const msg=!done?"Ти ще не відповідав(ла). Спробуємо?":pct>=90?"Ти справжній(-я) майстер(-иня) презентацій! 🌟":pct>=65?"Гарний результат! Ще трошки — і буде ідеально!":"Не засмучуйся! Перечитай параграф і спробуй ще раз — вийде!";
+  let h='<div class="card center pop"><p class="big">'+(st>=2?"🏆":st==1?"😺":"🐾")+'</p><h2 style="margin:0">'+(early?"Роботу завершено":"Тренажер пройдено!")+'</h2>'+
+  '<div class="stars">'+"⭐".repeat(st)+"☆".repeat(3-st)+'</div>'+
+  '<p><b>'+right+'</b> правильних із <b>'+done+'</b> відповідей'+(early&&done<Q.length?' (питань залишилось: '+(Q.length-done)+')':'')+'</p><p>'+msg+'</p>';
+  if(misses.length){h+='<h3 style="text-align:left">Повтори ці теми:</h3>'+misses.map(q=>'<div class="miss"><b>'+q.q+'</b><br>📖 с. '+q.p+' — '+q.e+'</div>').join("")}
+  h+='<button class="main" id="again">🔄 Пройти ще раз</button></div>';
+  $("app").innerHTML=h;$("again").onclick=start;
+  $("bar").style.width=(done/Q.length*100)+"%";
+}
+$("finBtn").onclick=()=>{
+  $("ovP").textContent=done?"Ти відповів(ла) на "+done+" з "+Q.length+" питань. Побачиш свій результат.":"Ти ще не відповідав(ла) на питання.";
+  $("ov").classList.remove("hide")};
+$("no").onclick=()=>$("ov").classList.add("hide");
+$("yes").onclick=()=>end(true);
+start();
+</script>
+</body>
+</html>
